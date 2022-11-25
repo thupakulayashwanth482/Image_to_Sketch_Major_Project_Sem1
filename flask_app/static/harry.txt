@@ -1,0 +1,415 @@
+from itertools import product
+from flask import Flask, render_template
+from flask_sqlalchemy import SQLAlchemy
+import cv2
+
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] =  "sqlite:///todo.db"
+db = SQLAlchemy(app)
+
+@app.route('/')
+def hello_world():
+    return render_template('index.html')
+    #return 'Hello, Badrinath World!'
+
+@app.route('/product')
+def product():
+    return 'This are my products'
+
+@app.route('/result',methods = ['POST','GET'])
+def result():
+    image = True 
+    return render_template('index.html',image = image)
+
+if __name__ == "__main__":
+    app.run(debug=True,port = 8000)
+
+
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Hello, world!</title>
+  </head>
+  <body>
+      <h1 style="text-align: center; background-color: antiquewhite; ">Computer Vision</h1>
+      
+
+        <div  style="display:inline-block;; padding-left: 40px;  gap: 15px; flex-direction: column;height: 100vh;">
+          
+          <input  id="file1" name ="img1" type="file" style="display: none;">
+          
+          <div  style="width: 400px;height :320px;border: 2px solid black;background-position: center;background-size: cover;"></div>
+
+          <div style="text-align: center;"><label for="file1" style="border: 1px solid black;" >--Upload--</label></div>
+        </div>
+
+      <div  style="display:inline-block;; gap: 15px ;padding-left: 200px; flex-direction: column;height: 100vh;">
+    
+        {% if image %}
+          <h1>Hello</h1>
+          <img src="static\pass_photo.jpg" />
+        {% endif %}
+        <div id="display_image" style="width: 400px;height :320px;border: 2px solid black;background-position: center;background-size: cover;"></div>
+        
+        <div style="text-align: center; ">Output</div>
+
+      </div>
+      
+      <form action="/result" method="post">
+          <button type="submit">Gray_Scale_image</button>
+      </form>
+      <div>
+        <button id="GS" onclick="">Gray_Scale_image</button>
+        <button id="BI">Blurred_Image</button>
+        <button id="II">Inverted_Image</button>
+        <button id="SI">Sketched_Image</button>
+      </div>
+
+    </div>
+      <script>
+
+        const image_input = document.querySelector("#image_input");
+        var upload_image = "";
+        image_input.addEventListener("change",function(){
+          const reader = new FileReader();
+          reader.addEventListener("load",()=>{
+            upload_image = reader.result;
+            document.querySelector("#display_image").style.backgroundImage = `url(${upload_image})`;
+          });
+          reader.readAsDataURL(this.files[0]);
+        })
+
+      </script>
+  </body>
+</html>
+
+
+
+from itertools import product
+from flask import Flask, render_template
+from flask_sqlalchemy import SQLAlchemy
+
+
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] =  "sqlite:///todo.db"
+db = SQLAlchemy(app)
+
+@app.route('/')
+def hello_world():
+    return render_template('index.html')
+    #return 'Hello, Badrinath World!'
+
+@app.route('/product')
+def product():
+    return 'This are my products'
+
+@app.route('/result',methods = ['POST','GET'])
+def result():
+    image = True 
+    return render_template('index.html',image = image)
+
+if __name__ == "__main__":
+    app.run(debug=True,port = 8000)
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Hello, world!</title>
+  </head>
+  <body>
+      <h1 style="text-align: center; background-color: antiquewhite; ">Computer Vision</h1>
+      
+
+        <div  style="display:inline-block;; padding-left: 40px;  gap: 15px; flex-direction: column;height: 100vh;">
+          
+          <input  id="file1" name ="img1" type="file" style="display: none;">
+          
+          <div id="display_image" style="width: 400px;height :320px;border: 2px solid black;background-position: center;background-size: cover;"></div>
+
+          <div style="text-align: center;"><label for="file1" style="border: 1px solid black;" >--Upload--</label></div>
+        </div>
+
+      <div  style="display:inline-block;; gap: 15px ;padding-left: 200px; flex-direction: column;height: 100vh;">
+    
+        {% if image %}
+          <h1>Hello</h1>
+          <img src="static\pass_photo.jpg" />
+        {% endif %}
+        <div style="width: 400px;height :320px;border: 2px solid black;background-position: center;background-size: cover;"></div>
+        
+        <div style="text-align: center; ">Output</div>
+
+      </div>
+      
+      <form action="/result" method="post">
+          <button type="submit">Gray_Scale_image</button>
+      </form>
+      <div>
+        <button id="GS" onclick="">Gray_Scale_image</button>
+        <button id="BI">Blurred_Image</button>
+        <button id="II">Inverted_Image</button>
+        <button id="SI">Sketched_Image</button>
+      </div>
+
+    </div>
+      <script>
+
+        const image_input = document.querySelector("#file1");
+        var upload_image = "";
+        image_input.addEventListener("change",function(){
+          const reader = new FileReader();
+          reader.addEventListener("load",()=>{
+            upload_image = reader.result;
+            document.querySelector("#display_image").style.backgroundImage = `url(${upload_image})`;
+          });
+          reader.readAsDataURL(this.files[0]);
+        })
+
+      </script>
+  </body>
+</html>
+
+
+
+
+
+picture = image_attachment('UserPicture')
+
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Hello, world!</title>
+  </head>
+  <body>
+      <h1 style="text-align: center; background-color: antiquewhite; ">Computer Vision</h1>
+      <form action="/result" method="post">
+
+        <div  style="display:inline-block;; padding-left: 40px;  gap: 15px; flex-direction: column;height: 100vh;">
+          
+          <input  id="file1" name ="file1" type="file" style="display: none;">
+          
+          <div id="display_image" style="width: 400px;height :320px;border: 2px solid black;background-position: center;background-size: cover;"></div>
+
+          <div style="text-align: center;"><label for="file1" style="border: 1px solid black;" >--Upload--</label></div>
+        </div>
+
+      <div  style="display:inline-block;; gap: 15px ;padding-left: 200px; flex-direction: column;height: 100vh;">
+  
+        {% if images %}
+          <h1>Hello</h1>
+          <img src={image} />
+        {% endif %}
+        <div style="width: 400px;height :320px;border: 2px solid black;background-position: center;background-size: cover;"></div>
+        
+        <div style="text-align: center; ">Output</div>
+
+      </div>
+      
+      <form action="/result" method="post">
+          <button type="submit">Gray_Scale_image</button>
+      </form>
+      <div>
+        <button id="GS" onclick="">Gray_Scale_image</button>
+        <button id="BI">Blurred_Image</button>
+        <button id="II">Inverted_Image</button>
+        <button id="SI">Sketched_Image</button>
+      </div>
+
+    </div>
+      <script>
+
+        const image_input = document.querySelector("#file1");
+        var upload_image = "";
+        image_input.addEventListener("change",function(){
+          const reader = new FileReader();
+          reader.addEventListener("load",()=>{
+            upload_image = reader.result;
+            document.querySelector("#display_image").style.backgroundImage = `url(${upload_image})`;
+          });
+          reader.readAsDataURL(this.files[0]);
+        })
+
+      </script>
+  </body>
+</html>
+
+
+from itertools import product
+from flask import Flask, render_template,request
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] =  "sqlite:///todo.db"
+app.config['SQLAlCHEMY_TRACK_MODIFICATIONS'] = True
+db = SQLAlchemy(app) 
+
+class Todo(db.Model):
+    sno = db.Column(db.Integer, primary_key = True)
+    age = db.Column(db.Integer,nullable = False)
+    img = db.Column(db.Text,nullable = False)
+    def __repr__(self) -> str:
+        return  f"{self.sno}"
+
+@app.route('/')
+def hello_world():
+    db.create_all()
+    todo = Todo(age = 20)
+    db.session.add(todo)
+    db.session.commit()
+    return render_template('index.html')
+
+
+@app.route('/product')
+def product():
+    return 'This are my products'
+
+@app.route('/result',methods = ['POST','GET'])
+def result():
+    print(request.form['file1'])
+    return render_template('index.html',image = True)
+
+if __name__ == "__main__":
+    app.run(debug=True,port = 8000)
+
+
+
+
+
+
+
+
+
+
+  # # from flask import Flask, render_template,request
+# # from flask_sqlalchemy import SQLAlchemy
+# # from werkzeug.utils import secure_filename
+
+# # app = Flask(__name__)
+
+# # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///img.db'
+# # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
+# # db = SQLAlchemy(app) 
+
+# # class Todo(db.Model):
+# #     sno = db.Column(db.Integer, primary_key = True)
+# #     img = db.Column(db.Text,unique = True,nullable = False)
+# #     def __repr__(self) -> str:
+# #         return  f"{self.sno}"
+# # @app.route('/')
+# # def hello_world():
+# #     db.create_all()
+# #     return render_template('index.html')
+
+# # @app.route('/upload',methods = ['POST'])
+# # def upload():
+# #     pic = request.files['pic']
+
+# #     if not pic:
+# #         return 'No pic uploaded', 400
+    
+# #     filename = secure_filename(pic.filename)
+
+# #     img = Todo(img = pic.read())
+# #     db.session.add(img)
+# #     db.session.commit()
+
+# #     return 'Img has been uploaded!',200
+
+# # if __name__ == "__main__":
+# #     app.run(debug=True,port = 8000)
+
+# import os
+# import secrets
+# from PIL import Image
+# from flask import Flask, request, Response,render_template, redirect
+# from werkzeug.utils import secure_filename
+# from forms import ImageUploadForm
+
+# import cv2
+# from db import db_init, db
+# from models import Img
+
+# app = Flask(__name__)
+# # SQLAlchemy config. Read more: https://flask-sqlalchemy.palletsprojects.com/en/2.x/
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///img.db'
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# db_init(app)
+# app.config['SECRET_KEY'] = 'any string works here'
+
+# @app.route('/')
+# def hello_world():
+#     db.create_all()
+#     return render_template('index.html')
+
+
+# UPLOAD_FOLDER = '/images'
+
+# def save_picture(form_picture):
+#     random_hex = secrets.token_hex(8)
+#     _, f_ext = os.path.splitext(form_picture.filename)
+#     picture_fn = random_hex + f_ext
+#     picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
+
+#     output_size = (125, 125)
+#     i = Image.open(form_picture)
+#     i.thumbnail(output_size)
+#     i.save(picture_path)
+
+#     return picture_fn
+
+# @app.route('/upload', methods=['POST'])
+# def upload():
+#     form = ImageUploadForm()
+
+#     if form.validate_on_submit():
+#         if form.picture.data:
+#             picture_file = save_picture(form.picture.data)
+
+#             img = Img(img=picture_file)
+#             db.session.add(img)
+#             db.session.commit()
+
+#             return "Uploaded successfully"
+#     return render_template("index.html", title="Upload", form=form)
+
+#     pic = request.files['pic']
+#     if not pic:
+#         return 'No pic uploaded!', 400
+
+#     filename = secure_filename(pic.filename)
+#     mimetype = pic.mimetype
+#     if not filename or not mimetype:
+#         return 'Bad upload!', 400
+
+#     img = Img(img=pic.read(), name=filename, mimetype=mimetype)
+#     db.session.add(img)
+#     db.session.commit()
+
+#     return 'Img Uploaded!', 200
+
+
+# @app.route('/<int:id>')
+# def get_img(id):
+#     img = Img.query.filter_by(id=id).first()
+
+#     print(img.img)
+
+#     #image = cv2.imread(str(img.img))
+    
+#     #gray_image = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
+#     #if gray_image is not None:
+#          #img1 = gray_image
+#     # #cv2.imwrite(r"C:\Users\nukan\Desktop\job\pass_photo_gray.jpg",gray_image)    
+
+#     if not img:
+#         return 'Img Not Found!', 404
+
+#     return Response(img.img, mimetype=img.mimetype)
+
+
+# if __name__ == "__main__":
+#     app.run(debug=True,port = 5000)
